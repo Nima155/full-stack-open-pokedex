@@ -15,5 +15,6 @@ jobs:
       - name: Time
         run: |
           date
-      - name: |
+      - name:
+        run: |
           ls -l
