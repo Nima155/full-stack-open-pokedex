@@ -23,6 +23,6 @@ jobs:
         uses: cypress-io/github-action@v2
         with:
           spec: cypress/integration/pokedex.js
-          start: npm run start-prod
           command: 'npm run test:e2e'
-          wait-on: 'http://localhost:5000'
+          start: npm run start-prod
+          wait-on: 'http://localhost:5000/'
