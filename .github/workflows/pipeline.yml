@@ -39,7 +39,7 @@ jobs:
           wait-on: http://localhost:5000
 
       - name: heroku deployment
-        if: github.event_name == 'push' && contains(join(github.event.commits.*.message), '#skip') == false
+        if: ${{github.event_name == 'push' && contains(join(github.event.commits.*.message), '#skip') == false}}
         uses: akhileshns/heroku-deploy@v3.12.12
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
@@ -52,7 +52,7 @@ jobs:
   versioning_pipeline: # job
     runs-on: ubuntu-18.04
     steps: # step
-      if: contains(join(github.event.commits.*.message), '#skip') == false || (github.event_name == 'pull_request') == false
+      if: ${{contains(join(github.event.commits.*.message), '#skip') == false || (github.event_name == 'pull_request') == false}}
       - uses: actions/checkout@v2 # get repository
       - name: Bump version and push tag
         if: ${{ github.event_name == 'push' }}
