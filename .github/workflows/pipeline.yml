@@ -6,14 +6,14 @@ on:
       - master
   pull_request:
     branches: [master]
-    types: [opened, synchronize]
+    types: [opened, synchronize] # on open and update
 
 jobs:
   simple_deployment_pipeline:
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - uses: actions/setup-node@v1 # actions are like functions
         with:
           node-version: '12.x'
 
@@ -39,7 +39,7 @@ jobs:
           wait-on: http://localhost:5000
 
       - name: heroku deployment
-        if: ${{ github.event_name == 'push' }}
+        if: ${{github.event_name == 'push'}} && contains(join(github.event.commits.*.message), '#skip') == "false"
         uses: akhileshns/heroku-deploy@v3.12.12
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
@@ -49,13 +49,15 @@ jobs:
           checkstring: 'ok'
           rollbackonhealthcheckfailed: true
 
-  versioning_pipeline:
+  versioning_pipeline: # job
     runs-on: ubuntu-18.04
-    steps:
-      - uses: actions/checkout@v2
+    steps: # step
+      if: contains(join(github.event.commits.*.message), '#skip') == "false" || !${{github.event_name == 'pull_request'}}
+      - uses: actions/checkout@v2 # get repository
       - name: Bump version and push tag
         if: ${{ github.event_name == 'push' }}
         uses: anothrNick/github-tag-action@1.33.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           DEFAULT_BUMP: patch
+# contains(join(github.event.commits.*.message), '#skip')
