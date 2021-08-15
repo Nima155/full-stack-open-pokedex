@@ -48,6 +48,7 @@ jobs:
           healthcheck: 'https://stark-dawn-46433.herokuapp.com/health'
           checkstring: 'ok'
           rollbackonhealthcheckfailed: true
+
   versioning_pipeline:
     runs-on: ubuntu-18.04
     steps:
