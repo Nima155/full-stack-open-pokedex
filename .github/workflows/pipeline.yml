@@ -52,7 +52,7 @@ jobs:
   versioning_pipeline: # job
     runs-on: ubuntu-18.04
     steps: # step
-      if: contains(join(github.event.commits.*.message), '#skip') == "false" || !${{github.event_name == 'pull_request'}}
+      if: contains(join(github.event.commits.*.message), '#skip') == "false" || ${{github.event_name == 'pull_request'}} == "false"
       - uses: actions/checkout@v2 # get repository
       - name: Bump version and push tag
         if: ${{ github.event_name == 'push' }}
