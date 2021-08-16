@@ -36,7 +36,7 @@ jobs:
           headless: true
           command: npm run test:e2e
           start: npm run start-prod
-          wait-on: http://localhost:50001
+          wait-on: http://localhost:5000
 
       - name: heroku deployment
         if: github.event_name == 'push' && contains(join(github.event.commits.*.message) , '#skip') == false
